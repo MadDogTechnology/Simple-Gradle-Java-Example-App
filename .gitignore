@@ -1,4 +1,7 @@
 
+### zsh name completion dust file
+.gradletasknamecache
+
 ### java https://github.com/github/gitignore.git
 
 *.class
