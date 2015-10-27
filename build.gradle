@@ -1,5 +1,13 @@
-group 'com.resolutebi.example'
-version '1.0.0'
+
+allprojects {
+    group 'com.resolutebi.example'
+    def baseVersion = '1.0'
+    def build = System.getenv("BUILD_NUMBER") ?: { ->
+        def user = System.getenv("USER");
+        return "dev-${user}";
+    }
+    version "${baseVersion}.${build}"
+}
 
 apply plugin: 'java'
 
