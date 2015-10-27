@@ -4,13 +4,13 @@ import com.resolutebi.example.messagegenerator.HelloWorldMessageGenerator;
 
 public class SimpleJavaApp {
 
-    private final HelloWorldMessageGenerator messageGenerator = new HelloWorldMessageGenerator();
+    private static final HelloWorldMessageGenerator messageGenerator = new HelloWorldMessageGenerator();
 
-    final void main(String[] vars) {
+    public static void main(String[] vars) {
         System.out.println(generateMessage());
     }
 
-    String generateMessage() {
+    static String generateMessage() {
         return messageGenerator.generateMessage();
     }
 

@@ -10,6 +10,9 @@ allprojects {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.resolutebi.example.SimpleJavaApp"
 
 repositories {
     mavenCentral()
