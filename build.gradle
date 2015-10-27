@@ -1,7 +1,7 @@
 
 allprojects {
     group 'com.resolutebi.example'
-    def baseVersion = '1.0'
+    def baseVersion = '1.foo'
     def build = System.getenv("BUILD_NUMBER") ?: { ->
         def user = System.getenv("USER");
         return "dev-${user}";
