@@ -3,7 +3,7 @@ Simple Gradle Java Example
 ==========================
 
 
-This is an unrealistically simple gradle/java project.
+This is an unrealistically simple gradle/java project.  All it does is print `Hello, world!`
 
 It exists to use for expirements with CI, builds, etc.
 
@@ -13,7 +13,12 @@ Build & Test
 
     ./gradlew build
 
+Running the app
+===============
 
+The easiest way is to just run it with gradle:
+
+    ./gradlew run
 
 
 Guidelines
