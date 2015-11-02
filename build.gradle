@@ -1,3 +1,19 @@
+buildscript {
+    repositories {
+        maven {
+            url "${artifactory_contextUrl}" + '/plugins-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+
+    }
+    dependencies {
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.3"
+    }
+}
 
 allprojects {
     group 'com.resolutebi.example'
@@ -6,10 +22,51 @@ allprojects {
         def user = System.getenv("USER");
         return "dev-${user}";
     }
-    version "${baseVersion}.${releaseNum}.${build}"
+    def releaseVersion = releaseNum ?: 0
+    version "${baseVersion}.${releaseVersion}.${build}"
+
+    apply plugin: "com.jfrog.artifactory"
+
+    artifactory {
+        contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+        publish {
+            repository {
+                repoKey = 'derektest-develop'
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+            repository {
+                repoKey = 'derektest-stable'
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+        resolve {
+            repository {
+                repoKey = 'repo'
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+                maven = true
+            }
+        }
+    }
+
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact(file("$rootDir/gradle.properties"))
+            }
+        }
+
+    }
+
 }
 
-apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = "com.resolutebi.example.SimpleJavaApp"
@@ -22,4 +79,28 @@ dependencies {
     compile project(':SubModuleA')
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
+/*
+publishing {
+    publications {
+        dists() {
+            artifact archive
+        }
+    }
+}
+*/
+artifactoryPublish {
+    publications('dists')
+}
+
+artifactoryPublish {
+    publications ('mavenJava')
+    def stableBuild = releaseNum != '0';
+    if ( stableBuild ) {
+        clientConfig.publisher.repoKey = 'derektest-stable'
+    } else {
+        clientConfig.publisher.repoKey = 'derektest-develop'
+    }
 }
