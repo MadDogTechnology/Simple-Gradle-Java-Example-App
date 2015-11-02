@@ -10,12 +10,9 @@ buildscript {
 
     }
     dependencies {
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.3"
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1."
     }
-}
-
-plugins {
-    id "com.jfrog.artifactory" version "3.1.0"
 }
 
 allprojects {
