@@ -5,8 +5,9 @@ Simple Gradle Java Example
 
 This is an unrealistically simple gradle/java project.  All it does is print `Hello, world!`
 
-It exists to use for expirements with CI, builds, etc.
+It exists to use for experiments with CI, builds, etc.
 
+[SubmoduleA](SubModuleA/README.md)
 
 Build & Test
 ============
@@ -38,3 +39,4 @@ Set up in Eclipse
 Then use Eclipse to import existing Eclipse project, which should prompt you to import the following projects:
   * simpleGradleJavaProject
   * SubModuleA
+
