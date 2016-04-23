@@ -25,6 +25,7 @@ allprojects {
     apply plugin: "resolute-common-config"
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+    apply plugin: 'jacoco'
 
     publishing {
 
