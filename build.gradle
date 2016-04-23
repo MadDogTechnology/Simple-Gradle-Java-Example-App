@@ -1,12 +1,37 @@
+buildscript {
+    repositories {
+        maven {
+            url "${artifactory_contextUrl}" + '/repo'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+
+        dependencies {
+            classpath "com.resolutebi:GradleCommonConfigurationPlugin:1.0.+"
+        }
+    }
+}
+
 
 allprojects {
     group 'com.resolutebi.example'
-    def baseVersion = '1'
-    def build = System.getenv("BUILD_NUMBER") ?: { ->
-        def user = System.getenv("USER");
-        return "dev-${user}";
+
+    apply plugin: "resolute-common-config"
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    publishing {
+
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact(file("$rootDir/gradle.properties"))
+            }
+        }
     }
-    version "${baseVersion}.${releaseNum}.${build}"
+
 }
 
 apply plugin: 'java'
@@ -15,12 +40,11 @@ apply plugin: 'eclipse'
 
 mainClassName = "com.resolutebi.example.SimpleJavaApp"
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':SubModuleA')
-
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+artifactoryPublish {
+    publications('mavenJava')
 }
